@@ -12,6 +12,14 @@ import {Button} from "@/components/ui/button";
 
 export default function Page() {
     const [currentWord, setCurrentWord] = useState("react");
+    const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
+
+    function addGuessedLetter(letter: string) {
+        setGuessedLetters(prevLetters =>
+            prevLetters.includes(letter) ? prevLetters : [...prevLetters, letter]
+        )
+        console.log(guessedLetters);
+    }
 
     return (
         <main className="flex flex-col items-center min-h-screen max-w-3xl py-12 px-4 mx-auto">
@@ -35,11 +43,11 @@ export default function Page() {
             {/*Keyboard section*/}
             <div className={'mt-18 flex flex-wrap items-center justify-center gap-1'}>
                 {alphabet.map((currLetter, i) => {
-                    return <Key key={currLetter} letter={currLetter.toUpperCase()} />
+                    return <Key key={currLetter} letter={currLetter.toUpperCase()} addLetter={addGuessedLetter}/>
                 })}
             </div>
 
-            <Button className={'flex items-center p-4 mt-20 text-3xl cursor-pointer h-12 border-white'}>New Game</Button>
+            <Button className={'flex items-center p-4 mt-20 text-2xl cursor-pointer h-12 border-white'}>New Game</Button>
 
         </main>
     )

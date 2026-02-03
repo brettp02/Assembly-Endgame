@@ -29,21 +29,40 @@ export default function Page() {
             {/*All current programming languages*/}
             <div className={'mt-7 flex flex-wrap justify-center gap-1 max-w-md'}>
                 {languages.map(language => {
-                    return <LanguageChip key={language.name} name={language.name} color={language.color} bgColor={language.backgroundColor}/>
+                    return <LanguageChip key={language.name}
+                                         name={language.name}
+                                         color={language.color}
+                                         bgColor={language.backgroundColor}
+                    />
                 })}
             </div>
 
             {/*Where we guess words*/}
             <div className={'flex gap-1 mt-12'}>
-                {[...currentWord].map((word, i) => {
-                    return <LetterBox letter={word} key={i} />
+                {[...currentWord].map((letter, i) => {
+                    const isGuessed = guessedLetters.includes(letter.toUpperCase())
+
+                    return <LetterBox
+                        letter={letter}
+                        key={i}
+                        isGuessed={isGuessed}
+                    />
                 })}
             </div>
 
             {/*Keyboard section*/}
             <div className={'mt-18 flex flex-wrap items-center justify-center gap-1'}>
                 {alphabet.map((currLetter, i) => {
-                    return <Key key={currLetter} letter={currLetter.toUpperCase()} addLetter={addGuessedLetter}/>
+                    const upperLetter = currLetter.toUpperCase()
+                    let status = 'idle'
+
+                    if (guessedLetters.includes(upperLetter) && currentWord.toUpperCase().includes(upperLetter)) {
+                        status = 'correct'
+                    } else if (guessedLetters.includes(upperLetter)) {
+                        status = 'incorrect'
+                    }
+
+                    return <Key key={currLetter} letter={upperLetter} addLetter={addGuessedLetter} status={status}/>
                 })}
             </div>
 

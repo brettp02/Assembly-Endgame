@@ -4,9 +4,11 @@ import { ComponentExample } from "@/components/component-example";
 import Header from "@/components/Header";
 import Status from "@/components/Status";
 import LanguageChip from "@/components/language-chip";
-import {languages} from "@/lib/languages";
+import {languages, alphabet} from "@/lib/languages";
 import {useState} from 'react'
 import LetterBox from "@/components/letter-box";
+import Key from "@/components/Key";
+import {Button} from "@/components/ui/button";
 
 export default function Page() {
     const [currentWord, setCurrentWord] = useState("react");
@@ -23,11 +25,21 @@ export default function Page() {
                 })}
             </div>
 
+            {/*Where we guess words*/}
             <div className={'flex gap-1 mt-12'}>
                 {[...currentWord].map((word, i) => {
                     return <LetterBox letter={word} key={i} />
                 })}
             </div>
+
+            {/*Keyboard section*/}
+            <div className={'mt-18 flex flex-wrap items-center justify-center gap-1'}>
+                {alphabet.map((currLetter, i) => {
+                    return <Key key={currLetter} letter={currLetter.toUpperCase()} />
+                })}
+            </div>
+
+            <Button className={'flex items-center p-4 mt-20 text-3xl cursor-pointer h-12 border-white'}>New Game</Button>
 
         </main>
     )

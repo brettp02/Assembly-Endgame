@@ -14,11 +14,12 @@ export default function Page() {
     const [currentWord, setCurrentWord] = useState("react");
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
+    const wrongGuessCount = guessedLetters.filter(letter => !currentWord.toUpperCase().includes(letter)).length;
+
     function addGuessedLetter(letter: string) {
         setGuessedLetters(prevLetters =>
             prevLetters.includes(letter) ? prevLetters : [...prevLetters, letter]
         )
-        console.log(guessedLetters);
     }
 
     return (
@@ -28,11 +29,14 @@ export default function Page() {
 
             {/*All current programming languages*/}
             <div className={'mt-7 flex flex-wrap justify-center gap-1 max-w-md'}>
-                {languages.map(language => {
+                {languages.map((language, index) => {
+                    const isLanguageLost = index < wrongGuessCount
+
                     return <LanguageChip key={language.name}
                                          name={language.name}
                                          color={language.color}
                                          bgColor={language.backgroundColor}
+                                         isLost = {isLanguageLost}
                     />
                 })}
             </div>
@@ -41,7 +45,6 @@ export default function Page() {
             <div className={'flex gap-1 mt-12'}>
                 {[...currentWord].map((letter, i) => {
                     const isGuessed = guessedLetters.includes(letter.toUpperCase())
-
                     return <LetterBox
                         letter={letter}
                         key={i}

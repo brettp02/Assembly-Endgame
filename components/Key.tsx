@@ -4,13 +4,16 @@ import {Button} from "@/components/ui/button";
 import useSound from 'use-sound'
 
 export default function Key({letter, addLetter, status}: {letter: string, addLetter: (letter: string) => void, status: string}) {
-    const [play] = useSound('/typewriter.wav')
+    const [defaultSound] = useSound('/typewriter.wav')
+    const [correctSound] = useSound('/correct-sound.wav')
+    const [errorSound] = useSound('/error-sound.wav')
+
     const bgCol = status === 'idle' ? '#FCBA29' :
                   status === 'correct' ? '#10A95B' :
                   status === 'incorrect' ? '#EC5D49' : '#FCBA29'
     
     function handleClick() {
-        play()
+        defaultSound()
         addLetter(letter)
     }
     

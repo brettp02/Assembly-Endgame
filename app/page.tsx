@@ -18,12 +18,14 @@ export default function Page() {
     // Derived Variables
     const wrongGuessCount = guessedLetters.filter(letter => !currentWord.toUpperCase().includes(letter)).length;
 
-    const isGameLost = wrongGuessCount >= languages.length - 1
+    const isGameLost = wrongGuessCount >= languages.length
     const isGameWon = currentWord
         .toUpperCase()
         .split('')
         .every(letter => guessedLetters.includes(letter));
     const isGameOver = isGameWon || isGameLost;
+
+    const gameStatusVal= isGameWon ? 'won' : isGameLost ? 'lost' : 'alive'
 
     function addGuessedLetter(letter: string) {
         setGuessedLetters(prevLetters =>
@@ -34,7 +36,9 @@ export default function Page() {
     return (
         <main className="flex flex-col items-center min-h-screen max-w-3xl py-12 px-4 mx-auto">
             <Header />
-            <Status />
+            <Status
+                gameStatus={gameStatusVal}
+            />
 
             {/*All current programming languages*/}
             <div className={'mt-7 flex flex-wrap justify-center gap-1 max-w-md'}>

@@ -11,10 +11,19 @@ import Key from "@/components/Key";
 import {Button} from "@/components/ui/button";
 
 export default function Page() {
+    // State variables
     const [currentWord, setCurrentWord] = useState("react");
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
+    // Derived Variables
     const wrongGuessCount = guessedLetters.filter(letter => !currentWord.toUpperCase().includes(letter)).length;
+
+    const isGameLost = wrongGuessCount >= languages.length - 1
+    const isGameWon = currentWord
+        .toUpperCase()
+        .split('')
+        .every(letter => guessedLetters.includes(letter));
+    const isGameOver = isGameWon || isGameLost;
 
     function addGuessedLetter(letter: string) {
         setGuessedLetters(prevLetters =>
@@ -69,7 +78,11 @@ export default function Page() {
                 })}
             </div>
 
-            <Button className={'flex items-center p-4 mt-20 text-2xl cursor-pointer h-12 border-white'}>New Game</Button>
+            {isGameOver && (
+                <Button className={'flex items-center p-4 mt-20 text-2xl cursor-pointer h-12 border-white'}>
+                    New Game
+                </Button>
+            )}
 
         </main>
     )
